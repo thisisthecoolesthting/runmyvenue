@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RunMyVenue — One connected software system for event venues</title>
+<meta name="description" content="RunMyVenue gives event venues one connected system to attract clients, plan events, schedule staff, and communicate with guests — website, floor plans, staffing, and signage on a single bill." />
+<link rel="canonical" href="https://runmyvenue.com/" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="RunMyVenue" />
+<meta property="og:title" content="RunMyVenue — One connected software system for event venues" />
+<meta property="og:description" content="Website, floor plans, staffing, and on-site signage for event venues — one connected system, one monthly bill." />
+<meta property="og:url" content="https://runmyvenue.com/" />
+<meta property="og:image" content="https://runmyvenue.com/og-image.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<!-- Structured data: Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "RunMyVenue",
+  "url": "https://runmyvenue.com/",
+  "description": "Connected venue software: website, floor plans, staff scheduling, and on-site signage for event venues.",
+  "sameAs": []
+}
+</script>
+
+<style>
+  :root{
+    /* House spine palette */
+    --teal:#0F6E56;
+    --blue:#0C5A8A;
+    --dark-teal:#04342C;
+    --cta:#C44E0B;
+    --cta-hover:#a83f06;
+    --eyebrow:#9FE1CB;
+    --on-dark:#E1F5EE;
+    --sub-accent:#5DCAA5;
+    /* Marquee accent (warm bulbs) */
+    --gold:#F4B740;
+    --gold-soft:#FCE9BE;
+    /* Neutrals */
+    --ink:#1F2937;
+    --primary-ink:#04342C;
+    --muted:#6B7280;
+    --muted2:#94A3B8;
+    --line:#E6EBEA;
+    --bg:#FFFFFF;
+    --bg-soft:#F5F8F7;
+    --bg-cream:#FBF8F1;
+    --radius-btn:6px;
+    --radius-card:16px;
+    --shadow-sm:0 1px 2px rgba(4,52,44,.06);
+    --shadow-md:0 8px 28px rgba(4,52,44,.10);
+    --maxw:1120px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{color:var(--primary-ink);letter-spacing:-.015em;margin:0;}
+  h1{font-size:clamp(2rem,5vw,3.1rem);font-weight:800;line-height:1.08;}
+  h2{font-size:clamp(1.5rem,3.4vw,2.15rem);font-weight:700;line-height:1.15;}
+  h3{font-size:1.125rem;font-weight:700;}
+  p{margin:0;}
+  a{color:var(--blue);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  img{max-width:100%;display:block;}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  .section{padding:72px 0;}
+  .eyebrow{
+    display:inline-block;font-size:13px;font-weight:600;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--teal);margin:0 0 14px;
+  }
+  .eyebrow.on-dark{color:var(--eyebrow);}
+  .lead{font-size:1.06rem;color:var(--muted);max-width:600px;}
+  .center{text-align:center;}
+  .center .lead{margin-left:auto;margin-right:auto;}
+
+  /* Skip link */
+  .skip{position:absolute;left:-999px;top:0;background:#fff;color:var(--blue);padding:10px 16px;z-index:200;border-radius:0 0 6px 0;}
+  .skip:focus{left:0;}
+
+  /* Focus visibility */
+  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
+  textarea:focus-visible,summary:focus-visible{
+    outline:3px solid var(--blue);outline-offset:2px;border-radius:4px;
+  }
+
+  /* Buttons */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-size:.97rem;font-weight:600;padding:13px 22px;border-radius:var(--radius-btn);
+    border:1px solid transparent;cursor:pointer;transition:.2s ease;text-decoration:none;
+    line-height:1;
+  }
+  .btn-primary{background:var(--cta);color:#fff;}
+  .btn-primary:hover{background:var(--cta-hover);text-decoration:none;}
+  .btn-ghost{background:transparent;color:var(--primary-ink);border-color:var(--line);}
+  .btn-ghost:hover{border-color:var(--teal);color:var(--teal);text-decoration:none;}
+  .btn-ghost-light{background:transparent;color:#fff;border-color:rgba(159,225,203,.55);}
+  .btn-ghost-light:hover{border-color:var(--eyebrow);text-decoration:none;}
+
+  /* Marquee bulb strip motif */
+  .bulbs{height:6px;width:100%;
+    background-image:radial-gradient(circle, var(--gold) 0 2px, transparent 2.5px);
+    background-size:18px 6px;background-position:center;background-repeat:repeat-x;
+    opacity:.9;}
+
+  /* ---------- Header ---------- */
+  .site-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);
+    backdrop-filter:saturate(180%) blur(8px);border-bottom:1px solid var(--line);}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px;}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem;color:var(--primary-ink);}
+  .brand:hover{text-decoration:none;}
+  .brand .mark{flex:none;}
+  .nav-links{display:flex;align-items:center;gap:26px;}
+  .nav-links a{color:var(--ink);font-weight:500;font-size:.95rem;}
+  .nav-links a:hover{color:var(--teal);text-decoration:none;}
+  .nav-cta{display:flex;align-items:center;gap:12px;}
+  .hamburger{display:none;background:none;border:1px solid var(--line);border-radius:8px;
+    padding:9px;cursor:pointer;color:var(--primary-ink);}
+
+  /* Mobile drawer (outside header to avoid stacking trap) */
+  .drawer-backdrop{position:fixed;inset:0;background:rgba(4,52,44,.45);z-index:140;
+    opacity:0;visibility:hidden;transition:.2s ease;}
+  .drawer-backdrop.open{opacity:1;visibility:visible;}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:min(82vw,320px);background:#fff;
+    z-index:150;transform:translateX(100%);transition:transform .25s ease;
+    padding:22px;display:flex;flex-direction:column;gap:6px;box-shadow:var(--shadow-md);}
+  .drawer.open{transform:translateX(0);}
+  .drawer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+  .drawer a{padding:13px 8px;border-radius:8px;color:var(--ink);font-weight:600;font-size:1.02rem;}
+  .drawer a:hover{background:var(--bg-soft);text-decoration:none;}
+  .drawer .btn{margin-top:12px;}
+  .icon-btn{background:none;border:none;cursor:pointer;color:var(--primary-ink);padding:6px;border-radius:8px;}
+
+  /* ---------- Hero ---------- */
+  .hero{background:linear-gradient(103deg,var(--teal) 0%,var(--blue) 100%);color:#fff;position:relative;overflow:hidden;}
+  .hero .wrap{position:relative;z-index:2;}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding:78px 0;}
+  .hero h1{color:#fff;}
+  .hero p.sub{color:var(--on-dark);font-size:1.18rem;margin:20px 0 28px;max-width:540px;}
+  .hero .actions{display:flex;flex-wrap:wrap;gap:14px;}
+  .trust-line{margin-top:22px;color:var(--on-dark);font-size:.9rem;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .trust-line .dot{width:4px;height:4px;border-radius:50%;background:var(--sub-accent);}
+  /* Hero glow */
+  .hero::after{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;
+    background:radial-gradient(circle,rgba(244,183,64,.22),transparent 70%);pointer-events:none;}
+
+  /* Hero visual: stylized marquee sign card */
+  .hero-card{background:rgba(255,255,255,.07);border:1px solid rgba(159,225,203,.28);
+    border-radius:20px;padding:22px;backdrop-filter:blur(4px);}
+  .marquee-sign{background:var(--dark-teal);border-radius:14px;padding:18px;position:relative;
+    border:2px solid rgba(244,183,64,.5);}
+  .marquee-sign .bulb-row{display:flex;justify-content:space-between;margin:2px 0 14px;}
+  .marquee-sign .bulb{width:8px;height:8px;border-radius:50%;background:var(--gold);
+    box-shadow:0 0 8px rgba(244,183,64,.8);}
+  .marquee-sign .sign-line{color:var(--gold-soft);font-weight:800;letter-spacing:.05em;
+    text-transform:uppercase;text-align:center;font-size:1.15rem;line-height:1.5;}
+  .pipeline-mini{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:18px;}
+  .pipeline-mini div{background:rgba(255,255,255,.08);border-radius:9px;padding:10px 6px;
+    text-align:center;font-size:.66rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--on-dark);}
+  .pipeline-mini div span{display:block;color:var(--gold);font-size:1.1rem;margin-bottom:4px;}
+
+  /* ---------- Pipeline strip ---------- */
+  .pipeline{background:var(--bg-cream);border-bottom:1px solid var(--line);}
+  .pipeline-row{display:grid;grid-template-columns:repeat(5,1fr);gap:0;align-items:stretch;}
+  .pipe-step{padding:30px 18px;text-align:center;position:relative;}
+  .pipe-step:not(:last-child)::after{content:"→";position:absolute;right:-10px;top:34px;
+    color:var(--gold);font-size:1.3rem;font-weight:700;z-index:2;}
+  .pipe-step .ico{width:44px;height:44px;margin:0 auto 12px;color:var(--teal);}
+  .pipe-step h3{font-size:1rem;margin-bottom:4px;}
+  .pipe-step p{font-size:.86rem;color:var(--muted);}
+
+  /* ---------- Generic grids / cards ---------- */
+  .grid{display:grid;gap:24px;}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  .grid-2{grid-template-columns:repeat(2,1fr);}
+  .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius-card);
+    padding:26px;transition:.2s ease;box-shadow:var(--shadow-sm);}
+  .card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
+  .card .ico{width:38px;height:38px;color:var(--teal);margin-bottom:14px;}
+  .card h3{margin-bottom:8px;}
+  .card p{color:var(--muted);font-size:.96rem;}
+
+  /* Problem / outcome two-col */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+  .panel{border-radius:var(--radius-card);padding:30px;}
+  .panel-prob{background:var(--bg-soft);border:1px solid var(--line);}
+  .panel-out{background:linear-gradient(160deg,var(--teal),var(--blue));color:#fff;}
+  .panel-out h3,.panel-out li{color:#fff;}
+  .panel ul{list-style:none;padding:0;margin:16px 0 0;}
+  .panel li{display:flex;gap:11px;padding:9px 0;font-size:.97rem;align-items:flex-start;}
+  .panel-prob li{color:var(--ink);}
+  .panel li .tick{flex:none;margin-top:2px;}
+  .panel-prob .tick{color:var(--cta);}
+  .panel-out .tick{color:var(--gold);}
+
+  /* Products table-cards */
+  .product{display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-card);
+    padding:24px 26px;box-shadow:var(--shadow-sm);transition:.2s ease;}
+  .product:hover{box-shadow:var(--shadow-md);}
+  .product .p-ico{width:48px;height:48px;border-radius:12px;background:var(--bg-cream);
+    display:flex;align-items:center;justify-content:center;color:var(--teal);}
+  .product .p-ico svg{width:26px;height:26px;}
+  .product h3{margin-bottom:3px;}
+  .product .p-desc{color:var(--muted);font-size:.93rem;}
+  .product .p-price{text-align:right;white-space:nowrap;}
+  .product .p-price .amt{font-weight:800;color:var(--primary-ink);font-size:1.12rem;}
+  .product .p-price .unit{display:block;color:var(--muted);font-size:.8rem;font-weight:500;}
+  .product .p-price .add{display:block;color:var(--cta);font-size:.78rem;font-weight:600;margin-top:3px;}
+  .quote-note{margin-top:18px;font-size:.88rem;color:var(--muted);background:var(--bg-soft);
+    border-radius:12px;padding:14px 18px;border-left:3px solid var(--gold);}
+
+  /* Bundles */
+  .bundles{background:var(--bg-soft);}
+  .bundle-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;align-items:stretch;}
+  .bundle{background:#fff;border:1px solid var(--line);border-radius:var(--radius-card);
+    padding:26px 22px;display:flex;flex-direction:column;position:relative;box-shadow:var(--shadow-sm);}
+  .bundle.featured{border:2px solid var(--teal);box-shadow:var(--shadow-md);}
+  .bundle .tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+    background:var(--teal);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;padding:5px 12px;border-radius:20px;white-space:nowrap;}
+  .bundle h3{font-size:1.08rem;min-height:2.6em;}
+  .bundle .price{margin:12px 0 2px;}
+  .bundle .price .amt{font-size:1.85rem;font-weight:800;color:var(--primary-ink);}
+  .bundle .price .per{color:var(--muted);font-size:.9rem;font-weight:500;}
+  .bundle .price-extra{font-size:.82rem;color:var(--cta);font-weight:600;min-height:1.2em;margin-bottom:8px;}
+  .bundle ul{list-style:none;padding:0;margin:14px 0 22px;flex:1;}
+  .bundle li{display:flex;gap:10px;font-size:.9rem;padding:7px 0;color:var(--ink);align-items:flex-start;}
+  .bundle li .tick{flex:none;color:var(--teal);margin-top:2px;}
+  .bundle .btn{width:100%;}
+  .terms-note{margin-top:24px;text-align:center;font-size:.88rem;color:var(--muted);}
+  .terms-note strong{color:var(--primary-ink);}
+
+  /* How it works */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;counter-reset:step;}
+  .step{position:relative;padding-top:8px;}
+  .step .num{width:38px;height:38px;border-radius:50%;background:var(--teal);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:14px;}
+  .step h3{margin-bottom:6px;font-size:1.02rem;}
+  .step p{color:var(--muted);font-size:.92rem;}
+
+  /* Differentiators */
+  .diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+
+  /* Founding venue program */
+  .founders{background:var(--dark-teal);color:#fff;border-radius:20px;padding:46px;position:relative;overflow:hidden;}
+  .founders h2{color:#fff;}
+  .founders p{color:var(--on-dark);max-width:560px;margin-top:12px;}
+  .founders .bulbs-row{display:flex;gap:9px;margin-bottom:20px;}
+  .founders .b{width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(244,183,64,.7);}
+  .founders .note{margin-top:18px;font-size:.85rem;color:var(--sub-accent);}
+
+  /* FAQ */
+  .faq{max-width:780px;margin:0 auto;}
+  details{border:1px solid var(--line);border-radius:12px;margin-bottom:12px;background:#fff;overflow:hidden;}
+  details[open]{box-shadow:var(--shadow-sm);}
+  summary{padding:18px 22px;font-weight:600;color:var(--primary-ink);cursor:pointer;
+    list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:1rem;}
+  summary::-webkit-details-marker{display:none;}
+  summary .chev{flex:none;transition:transform .2s ease;color:var(--teal);}
+  details[open] summary .chev{transform:rotate(180deg);}
+  details .answer{padding:0 22px 20px;color:var(--muted);font-size:.96rem;}
+
+  /* Lead form / final CTA */
+  .final{background:linear-gradient(103deg,var(--teal) 0%,var(--blue) 100%);color:#fff;}
+  .final-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+  .final h2{color:#fff;}
+  .final p.sub{color:var(--on-dark);margin-top:14px;font-size:1.05rem;max-width:460px;}
+  .final ul{list-style:none;padding:0;margin:24px 0 0;}
+  .final li{display:flex;gap:11px;padding:8px 0;color:var(--on-dark);align-items:flex-start;}
+  .final li .tick{color:var(--gold);flex:none;margin-top:2px;}
+  .form-card{background:#fff;border-radius:var(--radius-card);padding:30px;box-shadow:var(--shadow-md);}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:.85rem;font-weight:600;color:var(--primary-ink);margin-bottom:6px;}
+  .field label .req{color:var(--cta);}
+  .field input,.field select,.field textarea{
+    width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:8px;
+    font-size:.95rem;font-family:inherit;color:var(--ink);background:#fff;transition:.15s ease;}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--teal);outline-offset:0;}
+  .field textarea{min-height:92px;resize:vertical;}
+  .field.invalid input,.field.invalid select,.field.invalid textarea{border-color:var(--cta);background:#fff7f3;}
+  .field .err{display:none;color:var(--cta);font-size:.8rem;margin-top:5px;font-weight:600;}
+  .field.invalid .err{display:block;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .form-banner{display:none;padding:13px 16px;border-radius:8px;font-size:.9rem;font-weight:600;margin-bottom:18px;}
+  .form-banner.error{display:block;background:#fff1ea;color:var(--cta);border:1px solid #f3cbb8;}
+  .form-banner.success{display:block;background:#eafbf3;color:var(--teal);border:1px solid #b8e8d2;}
+  .form-foot{font-size:.78rem;color:var(--muted);margin-top:12px;text-align:center;}
+
+  /* Footer */
+  .footer{background:var(--primary-ink);color:#cfe7df;padding:56px 0 30px;}
+  .footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:32px;}
+  .footer h4{color:#fff;font-size:.82rem;text-transform:uppercase;letter-spacing:.07em;margin:0 0 14px;}
+  .footer a{color:#a7cfc3;display:block;padding:5px 0;font-size:.92rem;}
+  .footer a:hover{color:#fff;text-decoration:none;}
+  .footer .brand{color:#fff;margin-bottom:12px;}
+  .footer .tag{color:#8fb8ad;font-size:.9rem;max-width:300px;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.12);margin-top:40px;padding-top:22px;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.82rem;color:#8fb8ad;}
+  .footer .confirm{color:#6f9d90;font-size:.76rem;margin-top:8px;}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:980px){
+    .hero-grid{grid-template-columns:1fr;gap:36px;padding:56px 0;}
+    .hero-card{max-width:440px;}
+    .grid-3,.diff-grid{grid-template-columns:1fr 1fr;}
+    .bundle-grid{grid-template-columns:1fr 1fr;}
+    .steps{grid-template-columns:1fr 1fr;}
+    .pipeline-row{grid-template-columns:1fr 1fr 1fr;}
+    .pipe-step:nth-child(3)::after,.pipe-step:not(:last-child)::after{content:none;}
+    .final-grid,.split{grid-template-columns:1fr;gap:32px;}
+    .footer-grid{grid-template-columns:1fr 1fr;gap:26px;}
+  }
+  @media (max-width:640px){
+    .section{padding:52px 0;}
+    .nav-links{display:none;}
+    .nav-cta .btn{display:none;}
+    .hamburger{display:inline-flex;}
+    .grid-3,.diff-grid,.grid-2,.bundle-grid,.steps,.form-row{grid-template-columns:1fr;}
+    .pipeline-row{grid-template-columns:1fr;}
+    .pipe-step{display:flex;gap:16px;text-align:left;align-items:center;padding:16px 4px;border-bottom:1px solid var(--line);}
+    .pipe-step .ico{margin:0;width:38px;height:38px;}
+    .product{grid-template-columns:auto 1fr;gap:16px;}
+    .product .p-price{grid-column:1/-1;text-align:left;border-top:1px solid var(--line);padding-top:14px;}
+    .founders{padding:32px 24px;}
+    .wrap{padding:0 18px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important;}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="bulbs" aria-hidden="true"></div>
+  <div class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="#top" aria-label="RunMyVenue home">
+        <span class="mark" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 96 96" fill="none">
+            <defs><linearGradient id="hbadge" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#0F6E56"/><stop offset="1" stop-color="#0C5A8A"/></linearGradient></defs>
+            <rect width="96" height="96" rx="22" fill="url(#hbadge)"/>
+            <circle cx="34" cy="44" r="3.4" fill="#F4B740"/><circle cx="48" cy="35" r="3.4" fill="#F4B740"/><circle cx="62" cy="44" r="3.4" fill="#F4B740"/>
+            <path d="M26 50 L48 32 L70 50" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M30 70 H66" stroke="#FFFFFF" stroke-width="6.5" stroke-linecap="round"/>
+            <path d="M42 56 L56 63.5 L42 71 Z" fill="#9FE1CB"/>
+          </svg>
+        </span>
+        RunMyVenue
+      </a>
+      <div class="nav-links">
+        <a href="#system">The system</a>
+        <a href="#products">Products</a>
+        <a href="#packages">Packages</a>
+        <a href="#how">How it works</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="nav-cta">
+        <a href="#contact" class="btn btn-ghost">See packages</a>
+        <a href="#contact" class="btn btn-primary">Book a venue walkthrough</a>
+        <button class="hamburger" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer-backdrop" id="backdrop"></div>
+<aside class="drawer" id="drawer" aria-label="Mobile menu" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="brand">RunMyVenue</span>
+    <button class="icon-btn" id="closeBtn" aria-label="Close menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <a href="#system" class="dnav">The system</a>
+  <a href="#products" class="dnav">Products</a>
+  <a href="#packages" class="dnav">Packages</a>
+  <a href="#how" class="dnav">How it works</a>
+  <a href="#faq" class="dnav">FAQ</a>
+  <a href="#contact" class="btn btn-primary dnav">Book a venue walkthrough</a>
+</aside>
+
+<main id="main">
+<span id="top"></span>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow on-dark">One connected venue system</span>
+        <h1>Everything your venue needs to attract clients, plan events, schedule staff, and communicate with guests.</h1>
+        <p class="sub">RunMyVenue brings your website, floor plans, staff scheduling, and on-site signage into one connected system — and one predictable monthly bill. Built for independent event venues, banquet halls, and conference centers across Central Florida.</p>
+        <div class="actions">
+          <a href="#contact" class="btn btn-primary">Book a venue walkthrough</a>
+          <a href="#packages" class="btn btn-ghost-light">See packages &amp; pricing</a>
+        </div>
+        <p class="trust-line">
+          <span>Software bundles from $229/mo</span><span class="dot" aria-hidden="true"></span>
+          <span>One bill, one team to call</span><span class="dot" aria-hidden="true"></span>
+          <span>12-month agreement, 10% off annual</span>
+        </p>
+      </div>
+      <div class="hero-card" aria-hidden="true">
+        <div class="marquee-sign">
+          <div class="bulb-row">
+            <span class="bulb"></span><span class="bulb"></span><span class="bulb"></span>
+            <span class="bulb"></span><span class="bulb"></span><span class="bulb"></span>
+          </div>
+          <div class="sign-line">Your Venue,<br>One System</div>
+          <div class="pipeline-mini">
+            <div><span>◗</span>Attract</div>
+            <div><span>✦</span>Sell</div>
+            <div><span>▦</span>Plan</div>
+            <div><span>◷</span>Staff</div>
+            <div><span>◉</span>Talk</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PIPELINE STRIP ============ -->
+<section class="pipeline" id="system" aria-label="How the system connects">
+  <div class="wrap">
+    <div class="pipeline-row">
+      <div class="pipe-step">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+        <h3>Attract</h3>
+        <p>A professional website brings inquiries in and presents your venue at its best.</p>
+      </div>
+      <div class="pipe-step">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16v12H4z"/><path d="M8 20h8M4 9h16"/><circle cx="7" cy="6.5" r="1" fill="currentColor"/></svg></div>
+        <h3>Sell</h3>
+        <p>EventFloorPlans lets prospects picture their event and helps your team close it.</p>
+      </div>
+      <div class="pipe-step">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 4v16"/></svg></div>
+        <h3>Plan</h3>
+        <p>Lay out tables, stages, and seating to scale, then export a clean plan in a click.</p>
+      </div>
+      <div class="pipe-step">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M16 6a3 3 0 0 1 0 6M18 20a6 6 0 0 0-3-5.2"/></svg></div>
+        <h3>Staff</h3>
+        <p>Shift schedules the team you need to run every event — one predictable bill.</p>
+      </div>
+      <div class="pipe-step">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 9h10M7 12h6" stroke-linecap="round"/></svg></div>
+        <h3>Communicate</h3>
+        <p>Signcast greets guests, points the way, and promotes your services on-screen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEM / OUTCOME ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:42px;">
+      <span class="eyebrow">Stop running your venue from five disconnected apps</span>
+      <h2>Four tools, four logins, four invoices — and none of them talk to each other.</h2>
+    </div>
+    <div class="split">
+      <div class="panel panel-prob">
+        <h3>How most venues run today</h3>
+        <ul>
+          <li><span class="tick" aria-hidden="true">✕</span> A website built years ago that nobody can update without calling someone.</li>
+          <li><span class="tick" aria-hidden="true">✕</span> Seating charts drawn by hand or in a tool meant for architects.</li>
+          <li><span class="tick" aria-hidden="true">✕</span> Staff schedules living in spreadsheets and group texts.</li>
+          <li><span class="tick" aria-hidden="true">✕</span> Printed signs taped to easels, out of date by the next event.</li>
+          <li><span class="tick" aria-hidden="true">✕</span> Separate vendors, separate bills, and no single number to call.</li>
+        </ul>
+      </div>
+      <div class="panel panel-out">
+        <h3>How it works on RunMyVenue</h3>
+        <ul>
+          <li><span class="tick" aria-hidden="true">✓</span> One website that attracts inquiries and is easy to keep current.</li>
+          <li><span class="tick" aria-hidden="true">✓</span> True-to-scale floor plans your sales team and clients can both edit.</li>
+          <li><span class="tick" aria-hidden="true">✓</span> Staff scheduling for the whole team in one place.</li>
+          <li><span class="tick" aria-hidden="true">✓</span> On-screen signage you update once and it shows everywhere.</li>
+          <li><span class="tick" aria-hidden="true">✓</span> One bill, one onboarding, one team that knows your venue.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRODUCTS ============ -->
+<section class="section" id="products" style="background:var(--bg-cream);">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:42px;">
+      <span class="eyebrow">The products</span>
+      <h2>Five purpose-built tools for event venues</h2>
+      <p class="lead">Buy any product on its own, or save by combining them into a package. Prices below are recurring software unless marked one-time.</p>
+    </div>
+
+    <div class="grid" style="gap:16px;">
+      <!-- EventFloorPlans -->
+      <div class="product">
+        <div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 4v16"/></svg></div>
+        <div>
+          <h3>EventFloorPlans Venue</h3>
+          <p class="p-desc">True-to-scale layouts, guest seating, client editing links, and printable or emailable plans — built for events, not architects.</p>
+        </div>
+        <div class="p-price"><span class="amt">$129</span><span class="unit">/month</span><span class="add">+ $399 onboarding</span></div>
+      </div>
+      <!-- Signcast -->
+      <div class="product">
+        <div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 9h10M7 12h6" stroke-linecap="round"/></svg></div>
+        <div>
+          <h3>Signcast <span style="font-weight:500;color:var(--muted);font-size:.85rem;">· digital signage</span></h3>
+          <p class="p-desc">Venue-specific screen templates with onboarding, support, and light content management — welcome guests, give directions, and promote your services on-site.</p>
+        </div>
+        <div class="p-price"><span class="amt">$39</span><span class="unit">/screen / month</span><span class="add">+ $199 location setup</span></div>
+      </div>
+      <!-- Shift -->
+      <div class="product">
+        <div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg></div>
+        <div>
+          <h3>Shift <span style="font-weight:500;color:var(--muted);font-size:.85rem;">· staff scheduling</span></h3>
+          <p class="p-desc">Schedule the team you need to run every event, with one predictable monthly bill instead of per-head surprises.</p>
+        </div>
+        <div class="p-price"><span class="amt">$149</span><span class="unit">/mo · up to 25 staff</span><span class="add">$249/mo · up to 75 staff</span></div>
+      </div>
+      <!-- Venue website -->
+      <div class="product">
+        <div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8h18" /><circle cx="6.5" cy="6" r=".6" fill="currentColor"/><circle cx="8.5" cy="6" r=".6" fill="currentColor"/></svg></div>
+        <div>
+          <h3>Venue Website <span style="font-weight:500;color:var(--muted);font-size:.85rem;">· one-time build</span></h3>
+          <p class="p-desc">Professional design, content setup, and launch support — a website that presents your venue and brings inquiries in.</p>
+        </div>
+        <div class="p-price"><span class="amt">$4,500</span><span class="unit">one-time</span><span class="add">reduced in some packages</span></div>
+      </div>
+      <!-- Managed hosting -->
+      <div class="product">
+        <div class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01" stroke-linecap="round"/></svg></div>
+        <div>
+          <h3>Managed Website Hosting &amp; Support</h3>
+          <p class="p-desc">We host, secure, monitor, and keep your site current — so it never goes stale and you always have someone to call.</p>
+        </div>
+        <div class="p-price"><span class="amt">$149</span><span class="unit">/month</span></div>
+      </div>
+    </div>
+
+    <p class="quote-note"><strong>Quoted separately:</strong> hardware, television screens, media players, on-site installation, unusual integrations, and major website revisions. We&apos;ll scope these with you so there are no surprises.</p>
+  </div>
+</section>
+
+<!-- ============ BUNDLES / PACKAGES ============ -->
+<section class="section bundles" id="packages">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:46px;">
+      <span class="eyebrow">Packages</span>
+      <h2>One connected system, priced to grow with you</h2>
+      <p class="lead">Bundles combine the products at a lower combined price. Software bundles run on a 12-month agreement; pay annually and take 10% off the software.</p>
+    </div>
+
+    <div class="bundle-grid">
+      <!-- Venue Operations -->
+      <div class="bundle">
+        <h3>Venue Operations</h3>
+        <div class="price"><span class="amt">$229</span><span class="per">/mo</span></div>
+        <div class="price-extra">&nbsp;</div>
+        <ul>
+          <li><span class="tick" aria-hidden="true">✓</span> EventFloorPlans Venue</li>
+          <li><span class="tick" aria-hidden="true">✓</span> Shift for up to 25 staff</li>
+          <li><span class="tick" aria-hidden="true">✓</span> One bill, one onboarding</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost">Choose Operations</a>
+      </div>
+
+      <!-- Complete Venue Software (featured) -->
+      <div class="bundle featured">
+        <span class="tag">Most popular</span>
+        <h3>Complete Venue Software</h3>
+        <div class="price"><span class="amt">$299</span><span class="per">/mo</span></div>
+        <div class="price-extra">&nbsp;</div>
+        <ul>
+          <li><span class="tick" aria-hidden="true">✓</span> EventFloorPlans Venue</li>
+          <li><span class="tick" aria-hidden="true">✓</span> Shift for up to 25 staff</li>
+          <li><span class="tick" aria-hidden="true">✓</span> Signcast for 2 screens</li>
+          <li><span class="tick" aria-hidden="true">✓</span> Plan, staff, and communicate in one place</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary">Choose Complete</a>
+      </div>
+
+      <!-- Full Venue Growth Bundle -->
+      <div class="bundle">
+        <h3>Full Venue Growth Bundle</h3>
+        <div class="price"><span class="amt">$449</span><span class="per">/mo</span></div>
+        <div class="price-extra">+ $3,500 website (one-time)</div>
+        <ul>
+          <li><span class="tick" aria-hidden="true">✓</span> Everything in Complete</li>
+          <li><span class="tick" aria-hidden="true">✓</span> Managed website hosting &amp; support</li>
+          <li><span class="tick" aria-hidden="true">✓</span> Professional venue website ($3,500, reduced from $4,500)</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost">Choose Growth</a>
+      </div>
+
+      <!-- Low-Upfront Full Bundle -->
+      <div class="bundle">
+        <h3>Low-Upfront Full Bundle</h3>
+        <div class="price"><span class="amt">$599</span><span class="per">/mo</span></div>
+        <div class="price-extra">+ $499 setup · 24-month term</div>
+        <ul>
+          <li><span class="tick" aria-hidden="true">✓</span> Everything in Growth</li>
+          <li><span class="tick" aria-hidden="true">✓</span> Low upfront cost — website rolled into the monthly</li>
+          <li><span class="tick" aria-hidden="true">✓</span> You own the website after the 24-month term</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost">Choose Low-Upfront</a>
+      </div>
+    </div>
+
+    <p class="terms-note">
+      <strong>Commercial terms:</strong> Software bundles use a 12-month agreement with 10% off for annual payment. Onboarding is charged separately because room setup, branding, configuration, and training take real time. Under the Low-Upfront Full Bundle, your venue receives ownership of the website after completing the 24-month agreement.
+    </p>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="section" id="how">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:46px;">
+      <span class="eyebrow">How it works</span>
+      <h2>From first call to live in weeks, not months</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>Walkthrough</h3>
+        <p>We learn your venue, your events, and how your team works today — then recommend the package that fits.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>Onboarding &amp; setup</h3>
+        <p>We configure your rooms, branding, screens, and staff so everything reflects your venue from day one.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>Train your team</h3>
+        <p>Short, practical training so your sales and operations staff are confident on every tool.</p>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <h3>Go live &amp; grow</h3>
+        <p>You launch with one bill and one team to call. Add screens or staff capacity whenever you grow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DIFFERENTIATORS ============ -->
+<section class="section" style="background:var(--bg-soft);">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:42px;">
+      <span class="eyebrow">Why one system</span>
+      <h2>Built for the way venues actually operate</h2>
+    </div>
+    <div class="diff-grid">
+      <div class="card">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16v10H4z"/><path d="M9 21h6M12 17v4M8 11h8" stroke-linecap="round"/></svg></div>
+        <h3>One bill, one team</h3>
+        <p>Stop chasing four vendors. You get a single monthly invoice and one team that knows your venue and your setup.</p>
+      </div>
+      <div class="card">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l8 4v5c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V7z"/><path d="M9 12l2 2 4-4" stroke-linecap="round"/></svg></div>
+        <h3>Made for events</h3>
+        <p>Floor plans for seating and stages — not architectural drafting. Signage templates for guests — not a generic ad screen.</p>
+      </div>
+      <div class="card">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17l5-5 4 4 8-8" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 8v4h-4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Predictable pricing</h3>
+        <p>Flat monthly tiers instead of per-head fees that balloon during busy season. You always know your bill.</p>
+      </div>
+      <div class="card">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5" stroke-linecap="round"/></svg></div>
+        <h3>Hands-on onboarding</h3>
+        <p>We set up your rooms, branding, and screens and train your team — you&apos;re not handed a login and left alone.</p>
+      </div>
+      <div class="card">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 12a8 8 0 0 1 16 0M2 12h2M20 12h2M12 4V2" stroke-linecap="round"/><rect x="8" y="12" width="8" height="7" rx="1.5"/></svg></div>
+        <h3>Start small, add later</h3>
+        <p>Begin with one product or a starter bundle, then add screens, staff capacity, or a new website as you grow.</p>
+      </div>
+      <div class="card">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9"/></svg></div>
+        <h3>You own your website</h3>
+        <p>On the Low-Upfront bundle, the website becomes yours outright once your 24-month agreement is complete.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOUNDING VENUES ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="founders">
+      <div class="bulbs-row" aria-hidden="true">
+        <span class="b"></span><span class="b"></span><span class="b"></span><span class="b"></span><span class="b"></span>
+      </div>
+      <span class="eyebrow on-dark">Founding venue program</span>
+      <h2>We&apos;re onboarding our first five venues</h2>
+      <p>For our first five venues, we&apos;ll waive onboarding fees in exchange for a short testimonial, a case study, and permission to display your venue&apos;s logo. Your recurring price stays the same — you simply skip the setup charge while we build our reference list together.</p>
+      <div class="actions" style="margin-top:24px;">
+        <a href="#contact" class="btn btn-primary">Apply as a founding venue</a>
+      </div>
+      <p class="note">Founding-venue terms confirmed at your walkthrough. Limited to the first five venues.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section" id="faq" style="background:var(--bg-cream);">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:40px;">
+      <span class="eyebrow">Questions, answered</span>
+      <h2>Frequently asked questions</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>Can I buy just one product instead of a bundle?<span class="chev" aria-hidden="true">▾</span></summary>
+        <div class="answer">Yes. EventFloorPlans, Signcast, and Shift can each be purchased on their own. Bundles simply combine them at a lower combined price, with one onboarding and one bill. Most venues start with a bundle because the tools work better together.</div>
+      </details>
+      <details>
+        <summary>Why is onboarding charged separately?<span class="chev" aria-hidden="true">▾</span></summary>
+        <div class="answer">Onboarding covers real work: setting up your rooms to scale, applying your branding, configuring screens and staff, and training your team. Keeping it separate keeps your recurring price honest and predictable rather than padding the monthly fee.</div>
+      </details>
+      <details>
+        <summary>How long is the agreement, and is there a discount for paying annually?<span class="chev" aria-hidden="true">▾</span></summary>
+        <div class="answer">Software bundles use a 12-month agreement. Pay annually and you take 10% off the software portion. The Low-Upfront Full Bundle uses a 24-month agreement because the website cost is rolled into the monthly price.</div>
+      </details>
+      <details>
+        <summary>Do I own my website?<span class="chev" aria-hidden="true">▾</span></summary>
+        <div class="answer">If you purchase the website outright (one-time, or the reduced price inside the Growth bundle), it&apos;s yours. On the Low-Upfront Full Bundle, ownership of the website transfers to your venue once you complete the 24-month agreement.</div>
+      </details>
+      <details>
+        <summary>What about TVs, media players, and installation?<span class="chev" aria-hidden="true">▾</span></summary>
+        <div class="answer">Hardware — television screens, media players, on-site installation, unusual integrations, and major website revisions — is quoted separately so you only pay for exactly what your venue needs. We scope it with you before anything is ordered.</div>
+      </details>
+      <details>
+        <summary>What happens when I add more staff or screens?<span class="chev" aria-hidden="true">▾</span></summary>
+        <div class="answer">Shift has tiers for up to 25 and up to 75 active staff, so you move up a tier rather than paying per person. Signcast is priced per screen per month, so you add screens as you grow. We&apos;ll right-size everything at your walkthrough.</div>
+      </details>
+      <details>
+        <summary>Is this good value compared with buying tools separately?<span class="chev" aria-hidden="true">▾</span></summary>
+        <div class="answer">The bundles are priced below the sum of the individual products, and you get one onboarding and one bill instead of several. The bigger saving is operational: your sales, planning, staffing, and signage stop living in separate apps. <em>Note for the business owner: any direct competitor price comparisons should be verified and dated before publishing — market prices change.</em></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA / LEAD FORM ============ -->
+<section class="section final" id="contact">
+  <div class="wrap">
+    <div class="final-grid">
+      <div>
+        <span class="eyebrow on-dark">Book a venue walkthrough</span>
+        <h2>See how your venue runs on one connected system.</h2>
+        <p class="sub">Tell us about your venue and we&apos;ll show you the package that fits, with clear pricing and no obligation. Founding-venue spots include waived onboarding.</p>
+        <ul>
+          <li><span class="tick" aria-hidden="true">✓</span> A walkthrough tailored to your rooms and events</li>
+          <li><span class="tick" aria-hidden="true">✓</span> Straightforward pricing — bundles from $229/mo</li>
+          <li><span class="tick" aria-hidden="true">✓</span> One onboarding, one bill, one team to call</li>
+        </ul>
+      </div>
+
+      <div class="form-card">
+        <div class="form-banner" id="formBanner" role="alert" aria-live="polite"></div>
+        <form id="leadForm" novalidate action="#" method="post">
+          <div class="form-row">
+            <div class="field" id="f-name">
+              <label for="name">Your name <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="name" name="name" autocomplete="name" required aria-required="true" />
+              <span class="err" id="e-name">Please enter your name.</span>
+            </div>
+            <div class="field" id="f-venue">
+              <label for="venue">Venue name <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="venue" name="venue" autocomplete="organization" required aria-required="true" />
+              <span class="err" id="e-venue">Please enter your venue name.</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field" id="f-email">
+              <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
+              <input type="email" id="email" name="email" autocomplete="email" required aria-required="true" />
+              <span class="err" id="e-email">Please enter a valid email address.</span>
+            </div>
+            <div class="field" id="f-phone">
+              <label for="phone">Phone <span style="color:var(--muted);font-weight:500;">(optional)</span></label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" />
+              <span class="err" id="e-phone">Please enter a valid phone number.</span>
+            </div>
+          </div>
+          <div class="field" id="f-package">
+            <label for="package">Which package interests you? <span class="req" aria-hidden="true">*</span></label>
+            <select id="package" name="package" required aria-required="true">
+              <option value="">Select a package…</option>
+              <option value="operations">Venue Operations — $229/mo</option>
+              <option value="complete">Complete Venue Software — $299/mo</option>
+              <option value="growth">Full Venue Growth Bundle — $449/mo</option>
+              <option value="lowupfront">Low-Upfront Full Bundle — $599/mo</option>
+              <option value="single">A single product</option>
+              <option value="notsure">Not sure yet — help me choose</option>
+            </select>
+            <span class="err" id="e-package">Please choose an option.</span>
+          </div>
+          <div class="field">
+            <label for="message">Anything we should know? <span style="color:var(--muted);font-weight:500;">(optional)</span></label>
+            <textarea id="message" name="message" placeholder="Number of event rooms, screens, staff, current tools…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">Book my walkthrough</button>
+          <p class="form-foot">We&apos;ll reply within one business day. No spam, ever.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="brand" style="font-size:1.2rem;font-weight:800;">RunMyVenue</div>
+        <p class="tag">One connected software system for event venues — website, floor plans, staff scheduling, and on-site signage on a single bill.</p>
+        <p class="confirm">Business contact details below are placeholders — replace with your real email, phone, and address before launch.</p>
+      </div>
+      <div>
+        <h4>Products</h4>
+        <a href="#products">EventFloorPlans Venue</a>
+        <a href="#products">Signcast signage</a>
+        <a href="#products">Shift scheduling</a>
+        <a href="#products">Venue websites</a>
+        <a href="#products">Managed hosting</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="#system">The system</a>
+        <a href="#packages">Packages &amp; pricing</a>
+        <a href="#how">How it works</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Book a walkthrough</a>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <a href="mailto:hello@runmyvenue.com">hello@runmyvenue.com</a>
+        <a href="tel:+15555555555">(555) 555-5555</a>
+        <a href="#contact">Contact form</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> RunMyVenue. All rights reserved.</span>
+      <span><a href="#">Privacy</a> &nbsp;·&nbsp; <a href="#">Terms</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- FAQ structured data -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Can I buy just one product instead of a bundle?","acceptedAnswer":{"@type":"Answer","text":"Yes. EventFloorPlans, Signcast, and Shift can each be purchased on their own. Bundles combine them at a lower combined price with one onboarding and one bill."}},
+    {"@type":"Question","name":"Why is onboarding charged separately?","acceptedAnswer":{"@type":"Answer","text":"Onboarding covers setting up your rooms to scale, applying branding, configuring screens and staff, and training your team. Keeping it separate keeps the recurring price predictable."}},
+    {"@type":"Question","name":"How long is the agreement, and is there a discount for paying annually?","acceptedAnswer":{"@type":"Answer","text":"Software bundles use a 12-month agreement with 10% off for annual payment. The Low-Upfront Full Bundle uses a 24-month agreement."}},
+    {"@type":"Question","name":"Do I own my website?","acceptedAnswer":{"@type":"Answer","text":"If you purchase the website outright it is yours. On the Low-Upfront Full Bundle, ownership transfers to your venue after completing the 24-month agreement."}}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  "use strict";
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ---- Mobile drawer ----
+  var menuBtn=document.getElementById('menuBtn');
+  var drawer=document.getElementById('drawer');
+  var backdrop=document.getElementById('backdrop');
+  var closeBtn=document.getElementById('closeBtn');
+  function openDrawer(){drawer.classList.add('open');backdrop.classList.add('open');
+    drawer.setAttribute('aria-hidden','false');menuBtn.setAttribute('aria-expanded','true');
+    closeBtn.focus();}
+  function closeDrawer(){drawer.classList.remove('open');backdrop.classList.remove('open');
+    drawer.setAttribute('aria-hidden','true');menuBtn.setAttribute('aria-expanded','false');
+    menuBtn.focus();}
+  menuBtn.addEventListener('click',openDrawer);
+  closeBtn.addEventListener('click',closeDrawer);
+  backdrop.addEventListener('click',closeDrawer);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&drawer.classList.contains('open'))closeDrawer();});
+  Array.prototype.forEach.call(document.querySelectorAll('.drawer a'),function(a){a.addEventListener('click',closeDrawer);});
+
+  // ---- Form validation ----
+  var form=document.getElementById('leadForm');
+  var banner=document.getElementById('formBanner');
+  function setInvalid(id,bad){
+    var f=document.getElementById('f-'+id);
+    if(f){f.classList.toggle('invalid',bad);
+      var input=document.getElementById(id);
+      if(input)input.setAttribute('aria-invalid',bad?'true':'false');}
+  }
+  function emailOk(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);}
+  function phoneOk(v){return v.trim()===''||/^[0-9+().\-\s]{7,}$/.test(v);}
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    banner.className='form-banner';banner.textContent='';
+    var ok=true;
+    var name=document.getElementById('name').value.trim();
+    var venue=document.getElementById('venue').value.trim();
+    var email=document.getElementById('email').value.trim();
+    var phone=document.getElementById('phone').value;
+    var pkg=document.getElementById('package').value;
+
+    setInvalid('name',!name); if(!name)ok=false;
+    setInvalid('venue',!venue); if(!venue)ok=false;
+    var badEmail=!emailOk(email); setInvalid('email',badEmail); if(badEmail)ok=false;
+    var badPhone=!phoneOk(phone); setInvalid('phone',badPhone); if(badPhone)ok=false;
+    setInvalid('package',!pkg); if(!pkg)ok=false;
+
+    if(!ok){
+      banner.className='form-banner error';
+      banner.textContent='Please fix the highlighted fields and try again.';
+      var firstBad=form.querySelector('.field.invalid input, .field.invalid select');
+      if(firstBad)firstBad.focus();
+      return;
+    }
+    var submitBtn=form.querySelector('button[type="submit"]');
+    var msg=document.getElementById('message').value.trim();
+    var origLabel=submitBtn.textContent;
+    submitBtn.disabled=true; submitBtn.textContent='Sending…';
+    fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name:name,venue:venue,email:email,phone:phone,package:pkg,me
